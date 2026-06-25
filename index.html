@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年安徽高考志愿参考报告</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎓 高考志愿参考</a>
+            <button class="menu-toggle" aria-label="菜单">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">志愿推荐</a></li>
+                <li><a href="major.html">专业查询</a></li>
+                <li><a href="score.html">分数线查询</a></li>
+                <li><a href="school.html">院校详情</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>2026年安徽高考志愿参考报告</h1>
+            <p>基于位次与线差双重参考，科学规划志愿填报</p>
+        </div>
+
+        <div class="section">
+            <div class="user-info-card">
+                <div class="user-info-item">
+                    <div class="label">高考分数</div>
+                    <div class="value">525分</div>
+                </div>
+                <div class="user-info-item">
+                    <div class="label">考生类别</div>
+                    <div class="value">历史类</div>
+                </div>
+                <div class="user-info-item">
+                    <div class="label">超特控线</div>
+                    <div class="value green">+3分</div>
+                </div>
+                <div class="user-info-item">
+                    <div class="label">位次预估</div>
+                    <div class="value">约22639名</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                2026年安徽高考分数线
+            </h2>
+            <div class="score-lines">
+                <div class="score-line-card">
+                    <div class="label">历史类本科线</div>
+                    <div class="value">490分</div>
+                </div>
+                <div class="score-line-card">
+                    <div class="label">历史类特控线</div>
+                    <div class="value">522分</div>
+                </div>
+                <div class="score-line-card">
+                    <div class="label">物理类本科线</div>
+                    <div class="value">451分</div>
+                </div>
+                <div class="score-line-card">
+                    <div class="label">物理类特控线</div>
+                    <div class="value">514分</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🎯</span>
+                智能推荐院校
+            </h2>
+            <div class="tabs">
+                <button class="tab active" data-tab="chong">🚀 冲一冲 (13所)</button>
+                <button class="tab" data-tab="wen">✅ 稳妥院校 (30所)</button>
+                <button class="tab" data-tab="bao">🛡️ 保底院校 (15所)</button>
+            </div>
+
+            <div class="tab-content active" id="tab-chong">
+                <div class="recommend-grid" id="chongList"></div>
+            </div>
+            <div class="tab-content" id="tab-wen">
+                <div class="recommend-grid" id="wenList"></div>
+            </div>
+            <div class="tab-content" id="tab-bao">
+                <div class="recommend-grid" id="baoList"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📈</span>
+                历年分数线趋势
+            </h2>
+            <div class="chart-container">
+                <div class="chart-canvas" id="trendChart"></div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #6366f1;"></span>
+                        <span>历史类特控线</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #8b5cf6;"></span>
+                        <span>历史类本科线</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #06b6d4;"></span>
+                        <span>物理类特控线</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #10b981;"></span>
+                        <span>物理类本科线</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📋</span>
+                一分一段查询
+            </h2>
+            <div class="query-card">
+                <div class="query-form">
+                    <div class="form-group">
+                        <label for="querySubject">选择科目</label>
+                        <select id="querySubject">
+                            <option value="history">历史类</option>
+                            <option value="physics">物理类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryScore">输入分数</label>
+                        <input type="number" id="queryScore" placeholder="请输入分数" min="300" max="750" value="525">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button class="btn btn-primary" id="queryRankBtn" style="width: 100%;">查位次</button>
+                    </div>
+                </div>
+                <div class="query-result" id="rankResult">
+                    <div class="result-value">约22639名</div>
+                    <div class="result-label">预估全省排名（历史类）</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📚</span>
+                热门专业推荐
+            </h2>
+            <div class="major-grid" id="majorRecommend"></div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="major.html" class="btn btn-outline">查看全部专业 →</a>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <strong>⚠️ 免责声明</strong>
+            本网站数据仅供参考，不构成志愿填报建议。所有数据均来自公开渠道整理，具体请以安徽省教育招生考试院官方公布的信息为准。志愿填报有风险，请考生和家长谨慎决策。
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 安徽高考志愿参考系统 | 数据仅供参考，请以官方信息为准</p>
+    </footer>
+
+    <script src="data/control-lines.js"></script>
+    <script src="data/schools-anhui.js"></script>
+    <script src="data/schools-national.js"></script>
+    <script src="data/majors.js"></script>
+    <script src="data/rank-table.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

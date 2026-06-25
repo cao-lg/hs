@@ -1,0 +1,6 @@
+name = "gaokao-zy"
+compatibility_date = "2026-06-25"
+pages_build_output_dir = "./"
+
+# Cloudflare Pages项目配置
+# 使用 wrangler pages deploy 或 wrangler pages project create 后部署

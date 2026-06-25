@@ -1,0 +1,26 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "target": "index.html"
+    },
+    {
+      "path": "/index",
+      "target": "index.html"
+    },
+    {
+      "path": "/school",
+      "target": "school.html"
+    },
+    {
+      "path": "/major",
+      "target": "major.html"
+    }
+  ],
+  "headers": {
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block"
+  }
+}

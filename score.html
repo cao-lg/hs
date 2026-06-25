@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分数线查询 - 2026年安徽高考志愿参考</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎓 高考志愿参考</a>
+            <button class="menu-toggle" aria-label="菜单">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">志愿推荐</a></li>
+                <li><a href="major.html">专业查询</a></li>
+                <li><a href="score.html" class="active">分数线查询</a></li>
+                <li><a href="school.html">院校详情</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>分数线查询</h1>
+            <p>历年分数线对比 · 一分一段表 · 线差计算</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                历年分数线对比
+            </h2>
+            <div class="detail-section">
+                <div class="tabs">
+                    <button class="tab active" data-tab="history">历史类</button>
+                    <button class="tab" data-tab="physics">物理类</button>
+                </div>
+                <div class="tab-content active" id="tab-history">
+                    <table class="score-table">
+                        <thead>
+                            <tr>
+                                <th>年份</th>
+                                <th>特控线/一本线</th>
+                                <th>本科线/二本线</th>
+                                <th>分差</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody"></tbody>
+                    </table>
+                </div>
+                <div class="tab-content" id="tab-physics">
+                    <table class="score-table">
+                        <thead>
+                            <tr>
+                                <th>年份</th>
+                                <th>特控线/一本线</th>
+                                <th>本科线/二本线</th>
+                                <th>分差</th>
+                            </tr>
+                        </thead>
+                        <tbody id="physicsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📋</span>
+                一分一段表查询
+            </h2>
+            <div class="query-card">
+                <div class="query-form">
+                    <div class="form-group">
+                        <label for="rankQuerySubject">选择科目</label>
+                        <select id="rankQuerySubject">
+                            <option value="history">历史类</option>
+                            <option value="physics">物理类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryType">查询方式</label>
+                        <select id="queryType">
+                            <option value="scoreToRank">分数查位次</option>
+                            <option value="rankToScore">位次查分数</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryInput">输入数值</label>
+                        <input type="number" id="queryInput" placeholder="请输入分数或位次" value="525">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button class="btn btn-primary" id="rankTableQueryBtn" style="width: 100%;">查询</button>
+                    </div>
+                </div>
+                <div class="query-result" id="rankTableResult">
+                    <div class="result-value">约22639名</div>
+                    <div class="result-label">预估全省排名（历史类）</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🧮</span>
+                线差计算工具
+            </h2>
+            <div class="query-card">
+                <div class="query-form">
+                    <div class="form-group">
+                        <label for="diffSubject">选择科目</label>
+                        <select id="diffSubject">
+                            <option value="history">历史类</option>
+                            <option value="physics">物理类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="diffScore">高考分数</label>
+                        <input type="number" id="diffScore" placeholder="请输入您的分数" value="525">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button class="btn btn-primary" id="calcDiffBtn" style="width: 100%;">计算线差</button>
+                    </div>
+                </div>
+                <div class="query-result" id="diffResult">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div>
+                            <div class="result-value">+35分</div>
+                            <div class="result-label">超本科线</div>
+                        </div>
+                        <div>
+                            <div class="result-value">+3分</div>
+                            <div class="result-label">超特控线</div>
+                        </div>
+                        <div>
+                            <div class="result-value">22639名</div>
+                            <div class="result-label">预估位次</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <strong>⚠️ 免责声明</strong>
+            一分一段表数据根据公开信息整理，位次为预估数据，仅供参考。具体请以安徽省教育招生考试院官方公布的一分一段表为准。
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 安徽高考志愿参考系统 | 数据仅供参考，请以官方信息为准</p>
+    </footer>
+
+    <script src="data/control-lines.js"></script>
+    <script src="data/schools-anhui.js"></script>
+    <script src="data/schools-national.js"></script>
+    <script src="data/majors.js"></script>
+    <script src="data/rank-table.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

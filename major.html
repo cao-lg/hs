@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专业查询 - 2026年安徽高考志愿参考</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎓 高考志愿参考</a>
+            <button class="menu-toggle" aria-label="菜单">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">志愿推荐</a></li>
+                <li><a href="major.html" class="active">专业查询</a></li>
+                <li><a href="score.html">分数线查询</a></li>
+                <li><a href="school.html">院校详情</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>专业查询</h1>
+            <p>了解热门专业，规划未来方向</p>
+        </div>
+
+        <div class="filter-bar">
+            <div class="form-group">
+                <label for="categoryFilter">学科门类</label>
+                <select id="categoryFilter">
+                    <option value="">全部学科</option>
+                    <option value="文学">文学</option>
+                    <option value="法学">法学</option>
+                    <option value="管理学">管理学</option>
+                    <option value="经济学">经济学</option>
+                    <option value="教育学">教育学</option>
+                    <option value="医学">医学</option>
+                    <option value="理学">理学</option>
+                    <option value="历史学">历史学</option>
+                    <option value="哲学">哲学</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="majorSearch">搜索专业</label>
+                <input type="text" id="majorSearch" placeholder="输入专业名称搜索...">
+            </div>
+        </div>
+
+        <div class="major-grid" id="majorList"></div>
+
+        <div class="disclaimer">
+            <strong>⚠️ 免责声明</strong>
+            专业信息仅供参考，具体请以各院校官方公布的招生专业和培养方案为准。
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 安徽高考志愿参考系统 | 数据仅供参考，请以官方信息为准</p>
+    </footer>
+
+    <script src="data/control-lines.js"></script>
+    <script src="data/schools-anhui.js"></script>
+    <script src="data/schools-national.js"></script>
+    <script src="data/majors.js"></script>
+    <script src="data/rank-table.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
