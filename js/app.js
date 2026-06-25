@@ -345,23 +345,27 @@ const App = {
         const container = document.getElementById('majorRecommend');
         if (!container) return;
 
-        const hotMajors = Majors.filter(m => 
-            ['汉语言文学', '法学', '会计学', '英语', '新闻学', '财务管理', '金融学', '小学教育'].includes(m.name)
-        );
+        const hotMajors = Majors.filter(m => m.hotLevel === '热门').slice(0, 12);
 
         container.innerHTML = hotMajors.map(major => `
             <div class="major-card">
                 <h3>${major.name}</h3>
                 <div class="category">
                     <span class="tag primary">${major.category}</span>
-                    <span class="tag">${major.type}</span>
+                    <span class="tag">${major.majorClass}</span>
+                    <span class="tag hot">${major.hotLevel}</span>
                 </div>
                 <div class="info">
                     <span>⏱️ ${major.duration}</span>
-                    <span>💰 ${major.salary}</span>
+                    <span>🎓 ${major.degree}</span>
+                    <span>💰 ${major.avgSalary}</span>
+                    <span>📊 ${major.employmentRate}</span>
                 </div>
                 <div style="margin-top: 0.75rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                    <strong>就业方向：</strong>${major.employment}
+                    <strong>就业方向：</strong>${Array.isArray(major.employment) ? major.employment.slice(0, 4).join('、') : major.employment}
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.8125rem; color: var(--text-secondary);">
+                    <strong>学科评估：</strong>${major.ranking}
                 </div>
             </div>
         `).join('');
@@ -387,7 +391,8 @@ const App = {
             if (search) {
                 filtered = filtered.filter(m => 
                     m.name.toLowerCase().includes(search) ||
-                    m.employment.toLowerCase().includes(search)
+                    (Array.isArray(m.employment) ? m.employment.join(' ').toLowerCase().includes(search) : m.employment.toLowerCase().includes(search)) ||
+                    (m.description && m.description.toLowerCase().includes(search))
                 );
             }
 
@@ -411,25 +416,48 @@ const App = {
             return;
         }
 
-        container.innerHTML = majors.map(major => `
+        container.innerHTML = majors.map(major => {
+            const hotClass = major.hotLevel === '热门' ? 'hot' : (major.hotLevel === '冷门' ? 'cold' : '');
+            return `
             <div class="major-card">
                 <h3>${major.name}</h3>
                 <div class="category">
                     <span class="tag primary">${major.category}</span>
-                    <span class="tag">${major.type}</span>
+                    <span class="tag">${major.majorClass}</span>
+                    <span class="tag ${hotClass}">${major.hotLevel}</span>
+                    <span class="tag ranking">${major.ranking}</span>
                 </div>
                 <div class="info">
                     <span>⏱️ ${major.duration}</span>
-                    <span>💰 ${major.salary}</span>
+                    <span>🎓 ${major.degree}</span>
+                    <span>💰 ${major.avgSalary}</span>
+                    <span>📊 ${major.employmentRate}</span>
                 </div>
-                <div style="margin-top: 0.75rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                    <strong>就业方向：</strong>${major.employment}
+                <div class="major-desc">${major.description}</div>
+                <div class="major-section">
+                    <strong>📚 主要课程：</strong>
+                    <div class="tag-list">
+                        ${major.courses.slice(0, 5).map(c => `<span class="tag small">${c}</span>`).join('')}
+                    </div>
                 </div>
-                <div style="margin-top: 0.75rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                    <strong>开设院校：</strong>${major.schools.slice(0, 3).join('、')}${major.schools.length > 3 ? '等' : ''}
+                <div class="major-section">
+                    <strong>💼 就业方向：</strong>
+                    <div class="tag-list">
+                        ${(Array.isArray(major.employment) ? major.employment : [major.employment]).slice(0, 4).map(e => `<span class="tag small">${e}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="major-section">
+                    <strong>🎯 考研方向：</strong>
+                    <div class="tag-list">
+                        ${major.graduateDirection.slice(0, 3).map(g => `<span class="tag small">${g}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="major-section">
+                    <strong>🏫 推荐院校：</strong>
+                    <div>${major.relatedSchools.slice(0, 3).join('、')}${major.relatedSchools.length > 3 ? '等' : ''}</div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     },
 
     initSchoolDetail() {
