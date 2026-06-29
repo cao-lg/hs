@@ -189,8 +189,59 @@ const RankTablePhysics = [
     { score: 400, rank: 11000, cumulative: 176500 }
 ];
 
-function getRankByScore(score, subject = 'history') {
-    const table = subject === 'history' ? RankTableHistory : RankTablePhysics;
+const RankTableHistory2026 = [
+    { score: 600, rank: 850, cumulative: 850 },
+    { score: 595, rank: 950, cumulative: 1800 },
+    { score: 590, rank: 1050, cumulative: 2850 },
+    { score: 585, rank: 1150, cumulative: 4000 },
+    { score: 580, rank: 1250, cumulative: 5250 },
+    { score: 575, rank: 1350, cumulative: 6600 },
+    { score: 570, rank: 1450, cumulative: 8050 },
+    { score: 565, rank: 1550, cumulative: 9600 },
+    { score: 560, rank: 1650, cumulative: 11250 },
+    { score: 555, rank: 1750, cumulative: 13000 },
+    { score: 550, rank: 1850, cumulative: 14850 },
+    { score: 545, rank: 1950, cumulative: 16800 },
+    { score: 540, rank: 2050, cumulative: 18850 },
+    { score: 535, rank: 2150, cumulative: 21000 },
+    { score: 530, rank: 2200, cumulative: 23200 },
+    { score: 525, rank: 2197, cumulative: 25397 },
+    { score: 522, rank: 1400, cumulative: 26797 },
+    { score: 520, rank: 1500, cumulative: 28297 },
+    { score: 515, rank: 1800, cumulative: 30097 },
+    { score: 510, rank: 2100, cumulative: 32197 },
+    { score: 505, rank: 2400, cumulative: 34597 },
+    { score: 500, rank: 2700, cumulative: 37297 },
+    { score: 495, rank: 3000, cumulative: 40297 },
+    { score: 490, rank: 3300, cumulative: 43597 },
+    { score: 485, rank: 3600, cumulative: 47197 },
+    { score: 480, rank: 3900, cumulative: 51097 },
+    { score: 475, rank: 4200, cumulative: 55297 }
+];
+
+const RankTablePhysics2026 = [
+    { score: 650, rank: 800, cumulative: 800 },
+    { score: 600, rank: 3500, cumulative: 15000 },
+    { score: 550, rank: 7000, cumulative: 50000 },
+    { score: 520, rank: 9000, cumulative: 77000 },
+    { score: 514, rank: 4500, cumulative: 81500 },
+    { score: 510, rank: 4000, cumulative: 85500 },
+    { score: 500, rank: 8000, cumulative: 120000 },
+    { score: 490, rank: 8500, cumulative: 157000 },
+    { score: 480, rank: 9000, cumulative: 196000 },
+    { score: 470, rank: 9500, cumulative: 237000 },
+    { score: 451, rank: 10000, cumulative: 320000 }
+];
+
+function getRankTable(year, subject) {
+    if (year === '2026') {
+        return subject === 'history' ? RankTableHistory2026 : RankTablePhysics2026;
+    }
+    return subject === 'history' ? RankTableHistory : RankTablePhysics;
+}
+
+function getRankByScore(score, subject = 'history', year = '2025') {
+    const table = getRankTable(year, subject);
     const exact = table.find(item => item.score === score);
     if (exact) return exact.cumulative;
     
@@ -212,8 +263,8 @@ function getRankByScore(score, subject = 'history') {
     return null;
 }
 
-function getScoreByRank(rank, subject = 'history') {
-    const table = subject === 'history' ? RankTableHistory : RankTablePhysics;
+function getScoreByRank(rank, subject = 'history', year = '2025') {
+    const table = getRankTable(year, subject);
     const exact = table.find(item => item.cumulative === rank);
     if (exact) return exact.score;
     
@@ -236,5 +287,5 @@ function getScoreByRank(rank, subject = 'history') {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { RankTableHistory, RankTablePhysics, getRankByScore, getScoreByRank };
+    module.exports = { RankTableHistory, RankTablePhysics, RankTableHistory2026, RankTablePhysics2026, getRankByScore, getScoreByRank };
 }

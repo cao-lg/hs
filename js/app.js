@@ -1,7 +1,8 @@
 const App = {
     userScore: 525,
     userSubject: 'history',
-    userRank: 22639,
+    userRank: 25397,
+    userEquivalent2025Score: 518,
 
     init() {
         this.initNavigation();
@@ -65,9 +66,6 @@ const App = {
 
     getRecommendations() {
         const allSchools = this.getAllSchools();
-        const score2026 = ControlLines['2026'][this.userSubject];
-        const tekong = score2026.tekong;
-        const benke = score2026.benke;
 
         const chongSchools = [];
         const wenSchools = [];
@@ -83,26 +81,23 @@ const App = {
         });
 
         allSchools.forEach(school => {
-            const scoreDiff = school.score - this.userScore;
             const rankDiff = school.rank - this.userRank;
 
-            if (school.score >= tekong - 5 && school.score <= tekong + 25) {
-                if (!seen.has(school.name + school.group)) {
-                    seen.add(school.name + school.group);
-                    if (scoreDiff > 5 && scoreDiff <= 25) {
-                        chongSchools.push(school);
-                    }
+            if (school.rank >= this.userRank - 6000 && school.rank < this.userRank) {
+                if (!seen.has(school.name + '-chong')) {
+                    seen.add(school.name + '-chong');
+                    chongSchools.push(school);
                 }
             }
 
-            if (school.score >= this.userScore - 5 && school.score <= this.userScore + 5) {
+            if (school.rank >= this.userRank && school.rank <= this.userRank + 5000) {
                 if (!seen.has(school.name + '-wen')) {
                     seen.add(school.name + '-wen');
                     wenSchools.push(school);
                 }
             }
 
-            if (school.score >= benke && school.score < this.userScore - 5) {
+            if (school.rank > this.userRank + 5000 && school.rank <= this.userRank + 12000) {
                 if (!seen.has(school.name + '-bao')) {
                     seen.add(school.name + '-bao');
                     baoSchools.push(school);
@@ -110,13 +105,14 @@ const App = {
             }
         });
 
-        wenSchools.sort((a, b) => Math.abs(a.score - this.userScore) - Math.abs(b.score - this.userScore));
-        baoSchools.sort((a, b) => b.score - a.score);
+        chongSchools.sort((a, b) => a.rank - b.rank);
+        wenSchools.sort((a, b) => Math.abs(a.rank - this.userRank) - Math.abs(b.rank - this.userRank));
+        baoSchools.sort((a, b) => a.rank - b.rank);
 
         return {
-            chong: chongSchools.slice(0, 13),
+            chong: chongSchools.slice(0, 15),
             wen: wenSchools.slice(0, 30),
-            bao: baoSchools.slice(0, 15)
+            bao: baoSchools.slice(0, 20)
         };
     },
 
