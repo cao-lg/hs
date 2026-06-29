@@ -300,13 +300,15 @@ const App = {
 
     initRankQuery() {
         const queryBtn = document.getElementById('queryRankBtn');
+        const queryYear = document.getElementById('queryYear');
         const querySubject = document.getElementById('querySubject');
         const queryScore = document.getElementById('queryScore');
         const resultDiv = document.getElementById('rankResult');
 
-        if (!queryBtn || !querySubject || !queryScore || !resultDiv) return;
+        if (!queryBtn || !queryYear || !querySubject || !queryScore || !resultDiv) return;
 
         const doQuery = () => {
+            const year = queryYear.value;
             const subject = querySubject.value;
             const score = parseInt(queryScore.value);
 
@@ -315,13 +317,13 @@ const App = {
                 return;
             }
 
-            const rank = getRankByScore(score, subject);
+            const rank = getRankByScore(score, subject, year);
             const subjectName = subject === 'history' ? '历史类' : '物理类';
 
             if (rank) {
                 resultDiv.innerHTML = `
                     <div class="result-value">约${rank.toLocaleString()}名</div>
-                    <div class="result-label">预估全省排名（${subjectName}）</div>
+                    <div class="result-label">预估全省排名（${year}年${subjectName}）</div>
                 `;
             } else {
                 resultDiv.innerHTML = `
@@ -623,13 +625,15 @@ const App = {
         }
 
         const rankTableQueryBtn = document.getElementById('rankTableQueryBtn');
+        const rankQueryYear = document.getElementById('rankQueryYear');
         const rankQuerySubject = document.getElementById('rankQuerySubject');
         const queryType = document.getElementById('queryType');
         const queryInput = document.getElementById('queryInput');
         const rankTableResult = document.getElementById('rankTableResult');
 
-        if (rankTableQueryBtn && rankQuerySubject && queryType && queryInput && rankTableResult) {
+        if (rankTableQueryBtn && rankQueryYear && rankQuerySubject && queryType && queryInput && rankTableResult) {
             const doQuery = () => {
+                const year = rankQueryYear.value;
                 const subject = rankQuerySubject.value;
                 const type = queryType.value;
                 const value = parseInt(queryInput.value);
@@ -640,13 +644,14 @@ const App = {
                 }
 
                 const subjectName = subject === 'history' ? '历史类' : '物理类';
+                const yearLabel = year + '年';
 
                 if (type === 'scoreToRank') {
-                    const rank = getRankByScore(value, subject);
+                    const rank = getRankByScore(value, subject, year);
                     if (rank) {
                         rankTableResult.innerHTML = `
                             <div class="result-value">约${rank.toLocaleString()}名</div>
-                            <div class="result-label">预估全省排名（${subjectName}，${value}分）</div>
+                            <div class="result-label">预估全省排名（${yearLabel}${subjectName}，${value}分）</div>
                         `;
                     } else {
                         rankTableResult.innerHTML = `
@@ -655,11 +660,11 @@ const App = {
                         `;
                     }
                 } else {
-                    const score = getScoreByRank(value, subject);
+                    const score = getScoreByRank(value, subject, year);
                     if (score) {
                         rankTableResult.innerHTML = `
                             <div class="result-value">约${score}分</div>
-                            <div class="result-label">预估对应分数（${subjectName}，${value.toLocaleString()}位）</div>
+                            <div class="result-label">预估对应分数（${yearLabel}${subjectName}，${value.toLocaleString()}位）</div>
                         `;
                     } else {
                         rankTableResult.innerHTML = `
@@ -681,18 +686,22 @@ const App = {
                     queryInput.value = '525';
                 } else {
                     queryInput.placeholder = '请输入位次';
-                    queryInput.value = '22639';
+                    queryInput.value = '25611';
                 }
             });
+            
+            doQuery();
         }
 
         const calcDiffBtn = document.getElementById('calcDiffBtn');
+        const diffYear = document.getElementById('diffYear');
         const diffSubject = document.getElementById('diffSubject');
         const diffScore = document.getElementById('diffScore');
         const diffResult = document.getElementById('diffResult');
 
-        if (calcDiffBtn && diffSubject && diffScore && diffResult) {
+        if (calcDiffBtn && diffYear && diffSubject && diffScore && diffResult) {
             const calcDiff = () => {
+                const year = diffYear.value;
                 const subject = diffSubject.value;
                 const score = parseInt(diffScore.value);
 
@@ -701,10 +710,10 @@ const App = {
                     return;
                 }
 
-                const score2026 = ControlLines['2026'][subject];
-                const benkeDiff = score - score2026.benke;
-                const tekongDiff = score - score2026.tekong;
-                const rank = getRankByScore(score, subject);
+                const yearData = ControlLines[year] ? ControlLines[year][subject] : ControlLines['2026'][subject];
+                const benkeDiff = score - yearData.benke;
+                const tekongDiff = score - yearData.tekong;
+                const rank = getRankByScore(score, subject, year);
 
                 diffResult.innerHTML = `
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
@@ -718,7 +727,7 @@ const App = {
                         </div>
                         <div>
                             <div class="result-value">${rank ? rank.toLocaleString() : '暂无'}名</div>
-                            <div class="result-label">预估位次</div>
+                            <div class="result-label">预估位次（${year}年）</div>
                         </div>
                     </div>
                 `;
@@ -728,6 +737,8 @@ const App = {
             diffScore.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') calcDiff();
             });
+            
+            calcDiff();
         }
     }
 };
