@@ -9,17 +9,22 @@
     --warning: #f59e0b;
     --danger: #ef4444;
     --bg: #f1f5f9;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
     --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --card-bg: #ffffff;
     --text: #1e293b;
+    --text-primary: #1e293b;
     --text-secondary: #64748b;
     --text-light: #94a3b8;
     --border: #e2e8f0;
+    --border-light: #f1f5f9;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --radius: 8px;
+    --radius-sm: 6px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-xl: 20px;
@@ -1053,6 +1058,359 @@ footer p {
     }
 }
 
+.plan-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.plan-tab {
+    padding: 0.625rem 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.plan-tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.plan-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.plan-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-secondary);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.plan-school-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+}
+
+.plan-school-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.plan-school-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.school-code {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.plan-type-badge {
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+}
+
+.type-national { background: #ef4444; }
+.type-local { background: #10b981; }
+.type-college { background: #8b5cf6; }
+
+.plan-school-total {
+    font-size: 0.875rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.plan-group {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.plan-group:last-child {
+    border-bottom: none;
+}
+
+.plan-group-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.group-no {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.subject-req {
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 0.125rem 0.625rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+}
+
+.group-major-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.plan-major-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.plan-major-table th {
+    background: var(--bg-secondary);
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+}
+
+.plan-major-table td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+}
+
+.plan-major-table tr:last-child td {
+    border-bottom: none;
+}
+
+.major-name-cell {
+    font-weight: 500;
+}
+
+.plan-count {
+    display: inline-block;
+    background: #ecfdf5;
+    color: #047857;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    min-width: 2rem;
+    text-align: center;
+}
+
+.remark-cell {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    max-width: 300px;
+}
+
+.plan-overview-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.plan-overview-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.plan-overview-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.plan-overview-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.plan-overview-title {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.plan-overview-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+}
+
+.plan-overview-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.tip-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.tip-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.tip-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.tip-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .plan-overview-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .plan-overview-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .plan-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+
+    .plan-major-table {
+        font-size: 0.75rem;
+    }
+
+    .plan-major-table th,
+    .plan-major-table td {
+        padding: 0.5rem;
+    }
+
+    .remark-cell {
+        max-width: 150px;
+    }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 1rem;
@@ -1076,5 +1434,9 @@ footer p {
 
     .section-title {
         font-size: 1.125rem;
+    }
+
+    .plan-stats {
+        grid-template-columns: 1fr;
     }
 }

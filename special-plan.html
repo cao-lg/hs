@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专项计划查询 - 2026年安徽高考志愿参考</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎓 高考志愿参考</a>
+            <button class="menu-toggle" aria-label="菜单">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">志愿推荐</a></li>
+                <li><a href="major.html">专业查询</a></li>
+                <li><a href="score.html">分数线查询</a></li>
+                <li><a href="school.html">院校详情</a></li>
+                <li><a href="special-plan.html" class="active">专项计划</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>2026年安徽高考专项计划查询</h1>
+            <p>国家专项 · 地方专项 · 高校专项 招生计划一览</p>
+        </div>
+
+        <div class="section">
+            <div class="plan-tabs">
+                <button class="plan-tab active" data-plan="all">全部专项</button>
+                <button class="plan-tab" data-plan="国家专项">国家专项</button>
+                <button class="plan-tab" data-plan="地方专项">地方专项</button>
+                <button class="plan-tab" data-plan="高校专项">高校专项</button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="form-group">
+                <label for="planSearch">搜索院校/专业</label>
+                <input type="text" id="planSearch" placeholder="输入院校名称或专业名称搜索...">
+            </div>
+            <div class="form-group">
+                <label for="subjectFilter">选考要求</label>
+                <select id="subjectFilter">
+                    <option value="">全部</option>
+                    <option value="历史+不限">历史+不限</option>
+                    <option value="历史+思想政治">历史+思想政治</option>
+                    <option value="历史+地理">历史+地理</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="plan-stats" id="planStats"></div>
+
+        <div class="plan-list" id="planList"></div>
+
+        <div class="disclaimer">
+            <strong>⚠️ 免责声明</strong>
+            专项计划报考条件详见《2026年安徽普通高校招生报考指导》第6-7页。办学地点、外语语种、身体条件等其他要求详见院校招生章程或咨询招生院校。数据仅供参考，以官方公布为准。
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 安徽高考志愿参考系统 | 数据仅供参考，请以官方信息为准</p>
+    </footer>
+
+    <script src="data/special-plans.js"></script>
+    <script>
+    (function() {
+        let currentPlan = 'all';
+        let searchKeyword = '';
+        let subjectFilter = '';
+
+        function init() {
+            document.querySelectorAll('.plan-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPlan = this.dataset.plan;
+                    render();
+                });
+            });
+
+            document.getElementById('planSearch').addEventListener('input', function() {
+                searchKeyword = this.value.trim();
+                render();
+            });
+
+            document.getElementById('subjectFilter').addEventListener('change', function() {
+                subjectFilter = this.value;
+                render();
+            });
+
+            render();
+        }
+
+        function getFilteredData() {
+            const all = getAllSpecialPlans();
+            const types = currentPlan === 'all' ? Object.keys(all) : [currentPlan];
+            let results = [];
+
+            types.forEach(type => {
+                all[type].forEach(school => {
+                    let matchedGroups = school.groups.filter(group => {
+                        if (subjectFilter && group.subjectReq !== subjectFilter) return false;
+                        return true;
+                    });
+
+                    if (searchKeyword) {
+                        const schoolMatch = school.schoolName.includes(searchKeyword) || school.schoolCode.includes(searchKeyword);
+                        if (schoolMatch) {
+                        } else {
+                            matchedGroups = matchedGroups.map(group => ({
+                                ...group,
+                                majors: group.majors.filter(m =>
+                                    m.majorName.includes(searchKeyword) || m.majorCode.includes(searchKeyword)
+                                )
+                            })).filter(g => g.majors.length > 0);
+                        }
+                    }
+
+                    if (matchedGroups.length > 0) {
+                        results.push({
+                            ...school,
+                            planType: type,
+                            groups: matchedGroups
+                        });
+                    }
+                });
+            });
+
+            return results;
+        }
+
+        function render() {
+            const data = getFilteredData();
+            const listEl = document.getElementById('planList');
+            const statsEl = document.getElementById('planStats');
+
+            let totalSchools = data.length;
+            let totalMajors = 0;
+            let totalPlans = 0;
+
+            data.forEach(school => {
+                school.groups.forEach(group => {
+                    totalMajors += group.majors.length;
+                    group.majors.forEach(m => {
+                        if (m.planCount && !isNaN(parseInt(m.planCount))) {
+                            totalPlans += parseInt(m.planCount);
+                        }
+                    });
+                });
+            });
+
+            statsEl.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">招生院校</div>
+                    <div class="stat-value">${totalSchools}所</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">招生专业</div>
+                    <div class="stat-value">${totalMajors}个</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">招生计划</div>
+                    <div class="stat-value">${totalPlans}人</div>
+                </div>
+            `;
+
+            if (data.length === 0) {
+                listEl.innerHTML = '<div class="empty-tip">未找到匹配的专项计划数据</div>';
+                return;
+            }
+
+            listEl.innerHTML = data.map(school => {
+                const planTypeColors = {
+                    '国家专项': 'type-national',
+                    '地方专项': 'type-local',
+                    '高校专项': 'type-college'
+                };
+                const planTypeLabels = {
+                    '国家专项': '国家专项',
+                    '地方专项': '地方专项',
+                    '高校专项': '高校专项'
+                };
+
+                return `
+                <div class="plan-school-card">
+                    <div class="plan-school-header">
+                        <div class="plan-school-name">
+                            <span class="plan-type-badge ${planTypeColors[school.planType] || ''}">${planTypeLabels[school.planType] || ''}</span>
+                            ${school.schoolName}
+                            <span class="school-code">(${school.schoolCode})</span>
+                        </div>
+                        <div class="plan-school-total">计划招生：${school.totalPlan}人</div>
+                    </div>
+                    ${school.groups.map(group => `
+                    <div class="plan-group">
+                        <div class="plan-group-header">
+                            <span class="group-no">专业组 ${group.groupNo}</span>
+                            <span class="subject-req">${group.subjectReq}</span>
+                            <span class="group-major-count">${group.majors.length}个专业</span>
+                        </div>
+                        <table class="plan-major-table">
+                            <thead>
+                                <tr>
+                                    <th>专业代码</th>
+                                    <th>专业名称</th>
+                                    <th>学制</th>
+                                    <th>学费(元/年)</th>
+                                    <th>招生计划</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${group.majors.map(m => `
+                                <tr>
+                                    <td>${m.majorCode}</td>
+                                    <td class="major-name-cell">${m.majorName}</td>
+                                    <td>${m.years}年</td>
+                                    <td>${m.fee}</td>
+                                    <td><span class="plan-count">${m.planCount}</span></td>
+                                    <td class="remark-cell">${m.remark || '-'}</td>
+                                </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    `).join('')}
+                </div>
+                `;
+            }).join('');
+        }
+
+        init();
+    })();
+    </script>
+</body>
+</html>
