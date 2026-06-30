@@ -61,7 +61,18 @@ const App = {
         const anhui = SchoolsAnhui.map(s => ({ ...s, province: '省内' }));
         const national = SchoolsNational.map(s => ({ ...s, province: '省外' }));
         const chong = SchoolsChong.map(s => ({ ...s, province: s.city.startsWith('安徽') ? '省内' : '省外' }));
-        return [...anhui, ...national, ...chong];
+
+        const seen = new Set();
+        const result = [];
+
+        [...anhui, ...national, ...chong].forEach(school => {
+            if (!seen.has(school.name)) {
+                seen.add(school.name);
+                result.push(school);
+            }
+        });
+
+        return result;
     },
 
     getRecommendations() {
@@ -81,27 +92,19 @@ const App = {
         });
 
         allSchools.forEach(school => {
+            if (seen.has(school.name)) return;
+
             const rankDiff = school.rank - this.userRank;
 
             if (school.rank >= this.userRank - 6000 && school.rank < this.userRank) {
-                if (!seen.has(school.name + '-chong')) {
-                    seen.add(school.name + '-chong');
-                    chongSchools.push(school);
-                }
-            }
-
-            if (school.rank >= this.userRank && school.rank <= this.userRank + 5000) {
-                if (!seen.has(school.name + '-wen')) {
-                    seen.add(school.name + '-wen');
-                    wenSchools.push(school);
-                }
-            }
-
-            if (school.rank > this.userRank + 5000 && school.rank <= this.userRank + 12000) {
-                if (!seen.has(school.name + '-bao')) {
-                    seen.add(school.name + '-bao');
-                    baoSchools.push(school);
-                }
+                seen.add(school.name);
+                chongSchools.push(school);
+            } else if (school.rank >= this.userRank && school.rank <= this.userRank + 5000) {
+                seen.add(school.name);
+                wenSchools.push(school);
+            } else if (school.rank > this.userRank + 5000 && school.rank <= this.userRank + 12000) {
+                seen.add(school.name);
+                baoSchools.push(school);
             }
         });
 
