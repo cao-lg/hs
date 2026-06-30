@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年招生计划查询 - 安徽高考志愿参考</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .results-count {
+            color: #666;
+            font-size: 0.875rem;
+        }
+        .school-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .school-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .school-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .school-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .school-code {
+            font-size: 0.875rem;
+            color: #999;
+        }
+        .school-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        .school-stats span {
+            display: flex;
+            align-items: center;
+        }
+        .group-list {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        .group-list.active {
+            display: block;
+        }
+        .group-item {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        .group-code {
+            color: #4f46e5;
+            font-size: 0.875rem;
+        }
+        .group-req {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        .major-list {
+            font-size: 0.875rem;
+        }
+        .major-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .major-item:last-child {
+            border-bottom: none;
+        }
+        .major-name {
+            flex: 1;
+        }
+        .major-info {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+        }
+        .major-note {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .filter-tag {
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: #4f46e5;
+            color: white;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+        .no-results svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            .school-stats {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">🎓</span>
+                    <span>安徽高考志愿参考</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="index.html">首页</a>
+                <a href="score.html">分数线</a>
+                <a href="special-plan.html">专项计划</a>
+                <a href="admission-plan.html" class="active">招生计划</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1>2026年安徽高考历史类本科批招生计划</h1>
+                <p class="page-subtitle">共 <strong>991</strong> 所院校，<strong>6063</strong> 个专业，总招生 <strong>38182</strong> 人</p>
+            </div>
+
+            <div class="search-section">
+                <div class="search-form">
+                    <div class="form-group">
+                        <label>院校名称</label>
+                        <input type="text" id="searchSchool" placeholder="输入院校名称搜索">
+                    </div>
+                    <div class="form-group">
+                        <label>专业名称</label>
+                        <input type="text" id="searchMajor" placeholder="输入专业名称搜索">
+                    </div>
+                    <div class="form-group">
+                        <label>选考科目要求</label>
+                        <select id="searchReq">
+                            <option value="">不限</option>
+                            <option value="思想政治">思想政治</option>
+                            <option value="地理">地理</option>
+                            <option value="生物学">生物学</option>
+                            <option value="化学">化学</option>
+                            <option value="不限">不限</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-type="all">全部院校</button>
+                    <button class="filter-tag" data-type="anhui">安徽省内</button>
+                    <button class="filter-tag" data-type="985">985/211</button>
+                </div>
+            </div>
+
+            <div class="results-header">
+                <span class="results-count" id="resultsCount">显示 0 所院校</span>
+            </div>
+
+            <div id="resultsList"></div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <p>未找到符合条件的院校</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>数据来源：安徽省教育招生考试院官方发布 | 仅供志愿填报参考</p>
+        </div>
+    </footer>
+
+    <script src="data/admission-plan-2026-full.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // 招生计划查询功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchSchool = document.getElementById('searchSchool');
+            const searchMajor = document.getElementById('searchMajor');
+            const searchReq = document.getElementById('searchReq');
+            const resultsList = document.getElementById('resultsList');
+            const resultsCount = document.getElementById('resultsCount');
+            const noResults = document.getElementById('noResults');
+            const filterTags = document.querySelectorAll('.filter-tag');
+
+            let currentFilter = 'all';
+
+            function renderSchools(schools) {
+                if (schools.length === 0) {
+                    resultsList.innerHTML = '';
+                    noResults.style.display = 'block';
+                    resultsCount.textContent = '未找到符合条件的院校';
+                    return;
+                }
+
+                noResults.style.display = 'none';
+                resultsCount.textContent = `显示 ${schools.length} 所院校`;
+
+                let html = '';
+                schools.forEach((school, index) => {
+                    html += `
+                        <div class="school-card" data-index="${index}">
+                            <div class="school-header">
+                                <div>
+                                    <div class="school-name">${school.name}</div>
+                                    <div class="school-code">院校代码：${school.code}</div>
+                                </div>
+                            </div>
+                            <div class="school-stats">
+                                <span>📚 ${school.groups.length} 个专业组</span>
+                                <span>👥 总计划 ${school.total} 人</span>
+                            </div>
+                            <div class="group-list" id="groups-${index}">
+                                ${school.groups.map(group => `
+                                    <div class="group-item">
+                                        <div class="group-header">
+                                            <div>
+                                                <span class="group-code">专业组${group.code}</span>
+                                                <span class="group-req">${group.req}</span>
+                                            </div>
+                                            <span>${group.total}人</span>
+                                        </div>
+                                        <div class="major-list">
+                                            ${group.majors.map(major => `
+                                                <div class="major-item">
+                                                    <div style="flex: 1;">
+                                                        <div class="major-name">${major.name}</div>
+                                                        ${major.note ? `<div class="major-note">${major.note}</div>` : ''}
+                                                    </div>
+                                                    <div class="major-info">
+                                                        <span>招${major.num}人</span>
+                                                        <span>${major.fee > 0 ? major.fee + '元/年' : '学费待定'}</span>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsList.innerHTML = html;
+
+                // 添加点击事件
+                document.querySelectorAll('.school-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const index = this.dataset.index;
+                        const groupList = document.getElementById(`groups-${index}`);
+                        groupList.classList.toggle('active');
+                    });
+                });
+            }
+
+            function filterSchools() {
+                const schoolName = searchSchool.value.toLowerCase();
+                const majorName = searchMajor.value.toLowerCase();
+                const req = searchReq.value;
+
+                let filtered = AdmissionPlan2026.filter(school => {
+                    // 院校名称筛选
+                    if (schoolName && !school.name.toLowerCase().includes(schoolName)) {
+                        return false;
+                    }
+
+                    // 专业名称筛选
+                    if (majorName) {
+                        const hasMajor = school.groups.some(group =>
+                            group.majors.some(major =>
+                                major.name.toLowerCase().includes(majorName)
+                            )
+                        );
+                        if (!hasMajor) return false;
+                    }
+
+                    // 选考科目筛选
+                    if (req) {
+                        const hasReq = school.groups.some(group => {
+                            if (req === '不限') {
+                                return group.req === '不限';
+                            }
+                            return group.req.includes(req);
+                        });
+                        if (!hasReq) return false;
+                    }
+
+                    // 类型筛选
+                    if (currentFilter === 'anhui') {
+                        const anhuiCodes = ['9001', '9002', '9003', '9004', '9005', '9006', '9007', '9008', '9009',
+                                           '9010', '9011', '9012', '9013', '9014', '9015', '9016', '9017',
+                                           '9101', '9102', '9103', '9104', '9105', '9106', '9107', '9108', '9109',
+                                           '9110', '9111', '9112', '9113', '9114', '9115', '9116', '9117',
+                                           '9120', '9121', '9122', '9123'];
+                        if (!anhuiCodes.includes(school.code)) return false;
+                    }
+
+                    return true;
+                });
+
+                // 按院校代码排序
+                filtered.sort((a, b) => parseInt(a.code) - parseInt(b.code));
+
+                renderSchools(filtered);
+            }
+
+            // 事件监听
+            searchSchool.addEventListener('input', filterSchools);
+            searchMajor.addEventListener('input', filterSchools);
+            searchReq.addEventListener('change', filterSchools);
+
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.type;
+                    filterSchools();
+                });
+            });
+
+            // 初始加载
+            filterSchools();
+        });
+    </script>
+</body>
+</html>
