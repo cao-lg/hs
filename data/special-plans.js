@@ -5797,9 +5797,9 @@ const College专项Plans = [
 
 function getAllSpecialPlans() {
     return {
-        '国家专项': NationalPlans,
-        '地方专项': LocalPlans,
-        '高校专项': CollegePlans
+        '国家专项': National专项Plans,
+        '地方专项': Local专项Plans,
+        '高校专项': College专项Plans
     };
 }
 
